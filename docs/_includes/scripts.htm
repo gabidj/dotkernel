@@ -1,0 +1,155 @@
+<!--  BEGIN Scripts -->
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous">
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+	integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+	crossorigin="anonymous">
+	
+</script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+	integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+	crossorigin="anonymous">
+</script>
+	
+<!-- Summary hide on docs.dotkernel.com -->
+<script type="text/javascript">
+$( document ).ready(function(){
+	//set cookie name
+	var cookieSidebarName = "DocsSidebarItem";
+	
+	// get url data
+	var locationFull = window.location.href;
+	// var domain name
+	var locationBaseUrl = document.location.origin;
+	
+	var foundUrls = {};
+
+	// SIDEBAR MENU WITH HREF
+	$(".list-group-item").each(function( index ) {
+		if ($( this ).attr("href") == locationFull) {
+			foundUrls[$( this ).attr("id")] = locationFull;
+		} else {
+			var exit = false;
+			var locationPart = locationFull;
+			var urlToCheck = '';
+
+			do {
+				urlToCheck = locationPart.substr(0, locationPart.lastIndexOf('/') + 1);
+				locationPart = locationPart.substr(0, locationPart.lastIndexOf('/'));
+
+				if (locationPart == locationBaseUrl) {
+					exit = true;
+				} else {
+					if ($( this ).attr("href") == urlToCheck) {
+						foundUrls[$( this ).attr("id")] = urlToCheck;
+						exit = true;
+					}
+				}
+			} while (!exit);
+		}
+	});
+	
+	if (!jQuery.isEmptyObject( foundUrls ))
+	{
+		var menuElementId = '';
+		var maxUrlLength = 0;
+		var urlLength = 0;
+		
+		for (var key in foundUrls) {
+			urlLength = foundUrls[key].length;
+			if (urlLength > maxUrlLength) {
+				maxUrlLength = urlLength;
+				menuElementId = key;
+			}
+		}
+		
+		if (menuElementId != '') {
+			var subMenuItemId = menuElementId;
+			$("#" + menuElementId).addClass("active");
+			var subMenuItems = menuElementId.split("-");
+			var index = 0;
+			do {
+				subMenuItems.splice(-1,1);
+				var subMenuItemId = subMenuItems.join("-");
+				$("#" + subMenuItemId).addClass("in show");
+				$("a [href='#" + subMenuItemId + "']").attr("aria-expanded", "true");
+			} while (subMenuItems.length > 1);
+		}
+	}
+	
+	// SIDEBAR MENU WITH COOKIE - disabled for now
+	// reset cookie for homepage
+	/*if (locationOrigin == locationFull)
+	{
+		createCookie(cookieSidebarName,"",-1);
+	}
+	
+	$(".list-group-item").on("click", function(){
+		var expires = "";
+		var itemId = $(this).attr("id");
+		if (itemId != undefined)
+		{
+			var cookieString = cookieSidebarName + "=" + itemId + expires + "; path=/";
+			document.cookie = cookieString;
+		}
+	});
+	
+	var cookieInfo = getCookie(cookieSidebarName);
+	if (cookieInfo != null)
+	{
+		$("#" + cookieInfo).addClass("active");
+		var subMenuItems = cookieInfo.split("-");
+		var index = 0;
+		do {
+			subMenuItems.splice(-1,1);
+			var subMenuItemId = subMenuItems.join("-");
+			$("#" + subMenuItemId).addClass("in show");
+			$("a [href='#" + subMenuItemId + "']").attr("aria-expanded", "true");
+		} while (subMenuItems.length > 1)
+	}*/
+	
+	// check if host is docs.dotkernel.com
+	if( window.location.href.indexOf('docs.dotkernel.com') > -1) {
+		// $('#beforeSummary').next().hide();
+		$('#beforeSummary').next().replaceWith('<a href="{{ site.url }}/Disappear-Message.html"> Did something just disappear? </a>');
+	}	
+});
+
+function getCookie(name){
+	var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+</script>
+
+<!-- END Scripts -->
+
+<!-- BEGIN Google Analytics  -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-97413802-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- END Google Analytics -->

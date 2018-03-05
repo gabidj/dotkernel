@@ -55,3 +55,11 @@ clover.xml
 # */config/
 # */settings/
 
+# jekyll generated site
+docs/_site
+docs/assets/_site/
+docs/test.md
+
+# Mac OS X
+.DS_Store
+*/.DS_Store
